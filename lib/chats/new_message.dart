@@ -31,6 +31,7 @@ class _NewMessageState extends State<NewMessage> {
         "createdAt": Timestamp.now(),
         "userId": userId,
         "username": user["username"],
+        "userImage": user["imageUrl"],
       },
     );
     setState(() {

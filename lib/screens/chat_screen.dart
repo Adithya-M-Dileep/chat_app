@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 import '../chats/messages.dart';
 import '../chats/new_message.dart';
 
-class ChatScreen extends StatelessWidget {
+class ChatScreen extends StatefulWidget {
   static const routeName = "/chat-room";
 
+  @override
+  State<ChatScreen> createState() => _ChatScreenState();
+}
+
+class _ChatScreenState extends State<ChatScreen> {
   @override
   Widget build(BuildContext context) {
     //CollectionReference collectionRef = FirebaseFirestore.instance.collection(".chats/Yd7MBgjaotBAwikF1eRZ/messages");
@@ -17,6 +23,7 @@ class ChatScreen extends StatelessWidget {
         backgroundColor: Theme.of(context).primaryColor,
         actions: [
           DropdownButton(
+              underline: Container(),
               icon: Icon(
                 Icons.more_vert,
                 color: Theme.of(context).primaryIconTheme.color,

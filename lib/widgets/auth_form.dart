@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 import '../picker/user_image_picker.dart';
@@ -17,16 +19,31 @@ class _AuthFormState extends State<AuthForm> {
   var _userEmail = "";
   var _userName = "";
   var _userPassword = "";
+  File userImage;
+
+  void PickImage(File image) {
+    userImage = image;
+  }
 
   void _trySaving(BuildContext ctx) {
     final _isValid = _formKey.currentState.validate();
     FocusScope.of(context).unfocus();
+    if (userImage == null) {
+      ScaffoldMessenger.of(ctx).showSnackBar(
+        SnackBar(
+          content: Text("Please pick a Image!"),
+          backgroundColor: Theme.of(context).errorColor,
+        ),
+      );
+      return;
+    }
     if (_isValid) {
       _formKey.currentState.save();
       widget.submitAuthForm(
         _userEmail.trim(),
         _userName.trim(),
         _userPassword.trim(),
+        userImage,
         _isLogin,
         ctx,
       );
@@ -40,7 +57,7 @@ class _AuthFormState extends State<AuthForm> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          if (!_isLogin) UserImagePicker(),
+          if (!_isLogin) UserImagePicker(PickImage),
           TextFormField(
             key: ValueKey("Email"),
             validator: (value) {
@@ -50,6 +67,8 @@ class _AuthFormState extends State<AuthForm> {
               return null;
             },
             keyboardType: TextInputType.emailAddress,
+            autocorrect: false,
+            textCapitalization: TextCapitalization.none,
             decoration: InputDecoration(
               labelText: "Email Address",
             ),
@@ -60,6 +79,8 @@ class _AuthFormState extends State<AuthForm> {
           if (!_isLogin)
             TextFormField(
               key: ValueKey("username"),
+              autocorrect: true,
+              textCapitalization: TextCapitalization.words,
               validator: (value) {
                 if (value == null) return "Field is empty";
                 if (value.isEmpty || value.length < 4)
