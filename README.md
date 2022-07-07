@@ -2,15 +2,17 @@
 
 Chat app with Basic functionalities using Flutter and FireBase.
 
-##Installation
-'''
-flutter pub get
-'''
+## Installation
 
-##Usage
-'''
-flutter run
-'''
+```bash
+flutter pub get
+```
+
+## Usage
+
+```bash
+ flutter run
+```
 
 ## Features
 
